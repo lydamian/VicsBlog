@@ -1,0 +1,70 @@
+/* This is the css page */
+
+/* GLOBALS, GENERICS */
+.float-right{
+	text-align: right;
+};
+
+.full_images {
+	   /* Set rules to fill background */
+  min-height: 100%;
+  min-width: 1024px;
+	
+  /* Set up proportionate scaling */
+  width: 100%;
+  height: auto;
+	
+  /* Set up positioning */
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.background{
+	width: '400px';
+	minHeight: '100%';
+	minWidth: '1024px';
+	width: '100%'; 
+	height: 'auto';
+	position: 'fixed';
+	top: 0;
+	left: 0;
+}
+
+/* Center Center Aligns Text Content */
+.centerAlign{
+	text-align: center;
+	padding-top: 20%;
+	vertical-align: middle;
+	height: 100%;
+	width: 100%;
+}	
+
+
+.contain{
+	object-fit: contain;
+	background-size: contain;
+}
+
+.test{
+	height: 100px;
+	width: 100px;
+}
+
+.test_one{
+	color: red;
+	margin-top: 200px;
+}
+
+.testOne{
+	color: red;
+	margin-top: 200px;
+}
+/* END GLOBALS/GENERICS */
+
+
+.navBar{
+	float: right;
+}
+
+
