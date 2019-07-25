@@ -1,0 +1,10 @@
+
+Table of Contents:
+1. Directories and their functions
+
+
+Directories and their functions
+ - routes all api endpoints shall be defined in this file
+ - controller - processes HTTP requests and defines available endopints
+ - model - manages database layer (request and response)
+ 
