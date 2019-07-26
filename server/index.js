@@ -6,7 +6,6 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const logger = require("morgan");
 const playersRouter = require("./routes/players");
-const mongoose = require("mongoose");
 
 /* ======= IMPORTED RESOURCES =========== */
 const PORTS = require('./config/serverPort.js');
@@ -15,6 +14,9 @@ const DBS = require('./config/db.js');
 /* ======= CONSTANTS =========== */
 const PORT = PORTS.serverPort;
 const DB = DBS.mongoURI;
+const CONNECTION_URL = "mongodb+srv://new-user:test@victoriacluster-jjdcv.mongodb.net/test?retryWrites=true&w=majority"
+
+
 
 /* ======= MIDDLEWARE =========== */
 app.use(logger('dev'));
@@ -36,13 +38,17 @@ app.get('/testMongo', (req, res) => {
    res.send(DB); 
 });
 
+//testing routes
+
+
+
+// closing client
+db.close();
+
+//default route
 app.get('*', (req, res) => {
    res.send("Sorry this route is not defined..."); 
 });
-
-//test connecting to the database
-
-
 
 // exporting the app
 module.exports = app;
