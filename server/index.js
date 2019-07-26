@@ -4,7 +4,13 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const cookieParser = require('cookie-parser');
 const logger = require("morgan");
+
+const MongoClient = require('mongodb').MongoClient;
+
+//importing routes
+const testRouter = require('./routes/test');
 const playersRouter = require("./routes/players");
 
 /* ======= IMPORTED RESOURCES =========== */
@@ -23,6 +29,7 @@ app.use(logger('dev'));
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+app.use(cookieParser())
 
 // listening on some port
 app.listen(PORT, function(){
@@ -31,6 +38,7 @@ app.listen(PORT, function(){
 
 //routes
 app.use("/players", playersRouter);
+app.use("/test", testRouter);
 
 
 // quick tests
@@ -40,10 +48,22 @@ app.get('/testMongo', (req, res) => {
 
 //testing routes
 
-
+const client = new MongoClient(CONNECTION_URL, { useNewUrlParser: true });
+client.connect(err => {
+  if(err){
+	console.log("error connecting to the database");
+  }
+  else{
+	// perform actions on the collection object
+	const db = client.db('Test');
+	const collection = db.collection('TestCollection');
+	console.log(collection.find());
+  }
+  client.close();
+});
 
 // closing client
-db.close();
+client.close();
 
 //default route
 app.get('*', (req, res) => {

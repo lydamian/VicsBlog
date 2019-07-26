@@ -1,0 +1,22 @@
+Schemas:
+
+
+Employee User Scheme:
+
+'Employee' : {
+	first_name: 'string',
+	last_name: 'string',
+	date_created: date,
+	date_modified: date,
+	email: 'string', <- primary key
+	password: 'string',
+}
+
+'Blog' : {
+	title: string,
+	content: string,
+	date_created: date,
+	date_modified: date,
+	author: string,
+	blog_id: int <- primary key auto_increment
+}
