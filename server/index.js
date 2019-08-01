@@ -12,17 +12,16 @@ const MongoClient = require('mongodb').MongoClient;
 //importing routes
 const testRouter = require('./routes/test');
 const playersRouter = require("./routes/players");
+const employeeRouter = require("./routes/employee");
 
 /* ======= IMPORTED RESOURCES =========== */
 const PORTS = require('./config/serverPort.js');
 const DBS = require('./config/db.js');
 
-/* ======= CONSTANTS =========== */
+/* ======= CONSTANTS =========== */ 
 const PORT = PORTS.serverPort;
 const DB = DBS.mongoURI;
 const CONNECTION_URL = "mongodb+srv://new-user:test@victoriacluster-jjdcv.mongodb.net/test?retryWrites=true&w=majority"
-
-
 
 /* ======= MIDDLEWARE =========== */
 app.use(logger('dev'));
@@ -39,31 +38,7 @@ app.listen(PORT, function(){
 //routes
 app.use("/players", playersRouter);
 app.use("/test", testRouter);
-
-
-// quick tests
-app.get('/testMongo', (req, res) => {
-   res.send(DB); 
-});
-
-//testing routes
-
-const client = new MongoClient(CONNECTION_URL, { useNewUrlParser: true });
-client.connect(err => {
-  if(err){
-	console.log("error connecting to the database");
-  }
-  else{
-	// perform actions on the collection object
-	const db = client.db('Test');
-	const collection = db.collection('TestCollection');
-	console.log(collection.find());
-  }
-  client.close();
-});
-
-// closing client
-client.close();
+app.use("/employee", employeeRouter);
 
 //default route
 app.get('*', (req, res) => {

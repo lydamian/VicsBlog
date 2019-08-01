@@ -12,22 +12,30 @@
 */
 
 /* crud methods */
-function createEmployee(){
-	console.log("deleting employee');
+async function createEmployee(firstName, lastName, email, password){
+	console.log("creating an employee");
+	return 1;
 }
 
-function retrieveAllEmployees(){
-	console.log("retrieving all employees');
+async function retrieveAllEmployees(){
+	try{
+		return "retrieving all employees" ;
+	}
+	catch(err){
+		console.log("error retrieving All Employees");
+		return err;
+	}
+
 
 }
 
-function updateEmployee(){
-	console.log("updating employee');
-
+async function updateEmployee(email, values){
+	return "updating employee"  + email + 
+		" with values: " + values;
 }
 
-function deleteEmployee(){
-	console.log("deleting employee');
+async function deleteEmployee(email){
+	return "deleting employee" + email;
 }
 
 module.exports = {
