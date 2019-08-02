@@ -4,7 +4,7 @@ const router = express.Router();
 const employeeModel = require('../models/employee');
 
 // define routes
-router.get("/", async(req, res) => {
+router.get("/", (req, res) => {
     try{
 	res.status(200).send(
 	    "Welcome to the employees api"	
@@ -17,7 +17,7 @@ router.get("/", async(req, res) => {
     }
 });
 
-router.get("/hello", async(req, res) => {
+router.get("/hello", (req, res) => {
     try{
 	res.status(200).send(
 	    "Welcome to the employees api"	
@@ -30,12 +30,11 @@ router.get("/hello", async(req, res) => {
     }
 });
 
-router.get("/getAllEmployees", async(req, res) => {
+router.get("/getAllEmployees", (req, res) => {
     try{
-		let x = employeeModel.retrieveAllmployees();
-		console.log(x);
+		let all_employees = employeeModel.retrieveAllmployees();
 		res.status(200).json({
-			result : x,
+			all_employees : all_employees,
 		});
     }catch(err){
 		res.status(400).json({
@@ -45,26 +44,48 @@ router.get("/getAllEmployees", async(req, res) => {
     }
 });
 
-router.post("/createEmployee", async(req, res) => {
-	firstName = "firstName";
-	lastName = "lastName";
-	email = "email";
-	password = "password";
-
-	status = employeeModel.createEmployee(firstName, lastName, email, password);	
+router.post("/createEmployee", (req, res) => {
+	let status = 0;
     try{
-	res.status(200).json({
-		status
-	});
+		console.log(req.body);
+		let firstName = req.body.firstName;
+		let lastName = req.body.lastName;
+		let email = req.body.email;
+		let password = req.body.password; // TODO: Damian, this needs to be secure/encrypted in the future
+
+		status = employeeModel.createEmployee(firstName, lastName, email, password);
+	
+		res.status(200).json({
+			status,
+		});
     }catch(err){
-	res.status(400).json({
-		message: "Some error occured",
-		err
-	});
+		res.status(400).json({
+			status: status,
+			message: "Some error occured",
+			err
+		});
     }
 });
 
-router.post("/deleteEmployee/:email", async(req, res) => {
+router.post("/deleteEmployee", (req, res) => {
+	let status = 0;
+    try{
+		console.log(req.body);
+		let { email } = req.body;
+		status = employeeModel.deleteEmployee(email);
+		res.status(200).json({
+			status
+		});
+    }catch(err){
+		res.status(400).json({
+			status,
+			message: "Some error occured",
+			err
+		});
+    }
+});
+
+router.post("/deleteEmployee/:email", (req, res) => {
 	let { email } = req.params;
 	allEmployees = employeeModel.deleteEmployee(employee);
 	
@@ -80,23 +101,7 @@ router.post("/deleteEmployee/:email", async(req, res) => {
     }
 });
 
-router.post("/deleteEmployee/:email", async(req, res) => {
-	let { email } = req.params;
-	allEmployees = employeeModel.deleteEmployee(employee);
-	
-    try{
-	res.status(200).json({
-		allEmployees
-	});
-    }catch(err){
-	res.status(400).json({
-		message: "Some error occured",
-		err
-	});
-    }
-});
-
-router.get("/list/:email", async (req, res) => {
+router.get("/list/:email", (req, res) => {
   let { email } = req.params;
   try {
     

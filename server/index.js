@@ -13,6 +13,7 @@ const MongoClient = require('mongodb').MongoClient;
 const testRouter = require('./routes/test');
 const playersRouter = require("./routes/players");
 const employeeRouter = require("./routes/employee");
+const defaultRouter = require("./routes/default");
 
 /* ======= IMPORTED RESOURCES =========== */
 const PORTS = require('./config/serverPort.js');
@@ -27,6 +28,9 @@ const CONNECTION_URL = "mongodb+srv://new-user:test@victoriacluster-jjdcv.mongod
 app.use(logger('dev'));
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json({ type: 'application/*+json' }))
+app.use(bodyParser.raw({ type: 'application/vnd.custom-type' }))
+app.use(bodyParser.text({ type: 'text/html' }))
 app.use(bodyParser.json());
 app.use(cookieParser())
 
@@ -36,11 +40,15 @@ app.listen(PORT, function(){
 });
 
 //routes
+app.get('/', function(req, res){ // default homepage route
+   res.send("Hello, this is the default route... keep going on...");
+});
 app.use("/players", playersRouter);
 app.use("/test", testRouter);
 app.use("/employee", employeeRouter);
 
 //default route
+app.use('*', defaultRouter);
 app.get('*', (req, res) => {
    res.send("Sorry this route is not defined..."); 
 });
