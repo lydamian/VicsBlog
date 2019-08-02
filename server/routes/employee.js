@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const employeeModel = require('../models/employee');
 
+
 // define routes
 router.get("/", (req, res) => {
     try{
@@ -17,10 +18,11 @@ router.get("/", (req, res) => {
     }
 });
 
-router.get("/hello", (req, res) => {
+router.get("/test", (req, res) => {
     try{
+    let message = employeeModel.test();	
 	res.status(200).send(
-	    "Welcome to the employees api"	
+	    message
 	);
     }catch(err){
 	res.status(400).json({
@@ -85,29 +87,21 @@ router.post("/deleteEmployee", (req, res) => {
     }
 });
 
-router.post("/deleteEmployee/:email", (req, res) => {
-	let { email } = req.params;
-	allEmployees = employeeModel.deleteEmployee(employee);
-	
+router.post("/updateEmployee", (req, res) => {	
+	let status = 0;
     try{
-	res.status(200).json({
-		allEmployees
-	});
+    	let {email, firstName, lastName, password} = req.body;
+		let status = employeeModel.updateEmployee(email, {firstName, lastName, password});
+		res.status(200).json({
+			status
+		});
     }catch(err){
-	res.status(400).json({
-		message: "Some error occured",
-		err
-	});
+		res.status(400).json({
+			status,
+			message: "Some error occured",
+			err
+		});
     }
-});
-
-router.get("/list/:email", (req, res) => {
-  let { email } = req.params;
-  try {
-    
-  } catch (err) {
-    
-  }
 });
 
 

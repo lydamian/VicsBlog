@@ -1,4 +1,6 @@
 // employee model
+const MongoClient = require('mongodb').MongoClient;
+const DB = require('../config/db');
 
 /*schema 
 	'Employee' : {
@@ -10,6 +12,13 @@
 		password: 'string',
 	}
 */
+
+// testing method
+function test(){
+	console.log("testing in employee.js model function");
+	return DB.getMongoUri();
+}
+
 
 /* crud methods */
 function createEmployee(firstName, lastName, email, password){
@@ -45,4 +54,5 @@ module.exports = {
 	retrieveAllmployees : retrieveAllEmployees,
 	updateEmployee : updateEmployee,
 	deleteEmployee : deleteEmployee,
+	test: test,
 }
