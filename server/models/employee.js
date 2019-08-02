@@ -16,6 +16,22 @@ const DB = require('../config/db');
 // testing method
 function test(){
 	console.log("testing in employee.js model function");
+	const client = new MongoClient(CONNECTION_URL, { useNewUrlParser: true });
+	client.connect(err => {
+	  if(err){
+		console.log("error connecting to the database");
+	  }
+	  else{
+		// perform actions on the collection object
+		const db = client.db('Test');
+		const collection = db.collection('TestCollection');
+		console.log(collection.find());
+	  }
+	  client.close();
+	});
+
+	// closing client
+	client.close();
 	return DB.getMongoUri();
 }
 
