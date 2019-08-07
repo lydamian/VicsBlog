@@ -1,6 +1,7 @@
 // employee model
 const MongoClient = require('mongodb').MongoClient;
 const DB = require('../config/db');
+const CONNECTION_URL = DB.getMongoUri();
 
 /*schema 
 	'Employee' : {
@@ -14,27 +15,26 @@ const DB = require('../config/db');
 */
 
 // testing method
-function test(){
-	console.log("testing in employee.js model function");
+function test(callback){
 	const client = new MongoClient(CONNECTION_URL, { useNewUrlParser: true });
-	client.connect(err => {
+
+	result = client.connect(err => {
 	  if(err){
 		console.log("error connecting to the database");
 	  }
 	  else{
-		// perform actions on the collection object
 		const db = client.db('Test');
 		const collection = db.collection('TestCollection');
-		console.log(collection.find());
-	  }
-	  client.close();
+		let result = collection.find({}).toArray(function(err, docs) {
+		    if(err){console.log("error retrieving collection in test"); client.close(); return -1;}
+		    // closing client
+		    console.log(docs[0]);
+		    callback(docs[0]);
+		  });
+		}
 	});
-
-	// closing client
-	client.close();
-	return DB.getMongoUri();
+	return result;
 }
-
 
 /* crud methods */
 function createEmployee(firstName, lastName, email, password){

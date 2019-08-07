@@ -18,23 +18,27 @@ router.get("/", (req, res) => {
     }
 });
 
-router.get("/test", (req, res) => {
+router.get("/test", async (req, res) => {
     try{
-    let message = employeeModel.test();	
-	res.status(200).send(
-	    message
-	);
+    	employeeModel.test((result) => {
+			console.log(result);
+			res.status(200).json({
+			 	result
+			});
+    	});
+	   
     }catch(err){
-	res.status(400).json({
-	    message: "Some error occured",
-	    err
-	});
+		res.status(400).json({
+		    message: "Some error occured",
+		    err
+		});
     }
 });
 
 router.get("/getAllEmployees", (req, res) => {
     try{
 		let all_employees = employeeModel.retrieveAllmployees();
+
 		res.status(200).json({
 			all_employees : all_employees,
 		});
