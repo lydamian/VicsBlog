@@ -37,6 +37,10 @@ function test(callback){
 }
 
 /* crud methods */
+function validateEmployee(){
+	
+};
+
 function createEmployee(firstName, lastName, email, password){
 	console.log("creating an employee");
 	return 1;
