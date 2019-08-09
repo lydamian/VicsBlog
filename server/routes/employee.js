@@ -35,6 +35,18 @@ router.get("/test", async (req, res) => {
     }
 });
 
+router.get("/test2", async (req, res) => {
+	console.log("inside the route");
+    try{
+	   let result = await employeeModel.test2();
+	   console.log("logging some result: " + result);
+	   await res.status(200).send(result);
+    }catch(err){
+    	console.log("there is an error");
+    	res.status(400).send(err);``
+    }
+});
+
 router.get("/getAllEmployees", (req, res) => {
     try{
 		let all_employees = employeeModel.retrieveAllmployees();

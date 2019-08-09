@@ -36,6 +36,23 @@ function test(callback){
 	return result;
 }
 
+// testing method
+async function test2(){
+	let url = CONNECTION_URL;
+	try{
+		const client = await MongoClient.connect(url);
+		const dbo = await client.db('Test');
+		let collection = await dbo.collection('TestCollection');
+		let result = await collection.find({}).toArray();
+		console.log(result);
+		return result;
+	}
+	catch(err){
+		return err;
+	}
+	
+}
+
 /* crud methods */
 function createEmployee(firstName, lastName, email, password){
 	console.log("creating an employee");
@@ -71,4 +88,5 @@ module.exports = {
 	updateEmployee : updateEmployee,
 	deleteEmployee : deleteEmployee,
 	test: test,
+	test2: test2,
 }
