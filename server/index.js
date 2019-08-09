@@ -34,6 +34,13 @@ app.use(bodyParser.text({ type: 'text/html' }))
 app.use(bodyParser.json());
 app.use(cookieParser())
 
+var myLogger = function (req, res, next) { // mabye do something like this for authentication?
+  console.log('This middleware has been hit!');
+  next()
+}
+
+app.use(myLogger)
+
 // listening on some port
 app.listen(PORT, function(){
     console.log("Running on PORT: " + PORT);

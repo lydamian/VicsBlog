@@ -54,6 +54,10 @@ async function test2(){
 }
 
 /* crud methods */
+function validateEmployee(){
+	
+};
+
 function createEmployee(firstName, lastName, email, password){
 	console.log("creating an employee");
 	return 1;
