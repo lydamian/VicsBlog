@@ -2,6 +2,7 @@
 const MongoClient = require('mongodb').MongoClient;
 const DB = require('../config/db');
 const CONNECTION_URL = DB.getMongoUri();
+const validator = require('../classes/validation');
 
 /*schema 
 	'Employee' : {
@@ -50,28 +51,52 @@ async function test2(){
 	catch(err){
 		return err;
 	}
-	
 }
 
-/* crud methods */
-function validateEmployee(){
-	
-};
-
-function createEmployee(firstName, lastName, email, password){
-	console.log("creating an employee");
-	return 1;
+function test3(){
+	let email = 'lydamian@gmail.com';
+	return validateEmployee(email, '', '', '', '');
 }
 
-function retrieveAllEmployees(){
+async function retrieveAllEmployees(){
+	let url = CONNECTION_URL;
 	try{
-		return "retrieving all employees" ;
+		const client = await MongoClient.connect(url, { useNewUrlParser: true });
+		const db = await client.db('VictoriaDB');
+		let collection = await db.collection('EmployeeUser');
+		let result = await collection.find({}).toArray();
+		return result;
 	}
 	catch(err){
 		console.log("error retrieving All Employees");
 		return err;
 	}
 }
+
+async function createEmployee(firstName, lastName, email, password){
+	let url = CONNECTION_URL;
+	try{
+		const client = await MongoClient.connect(url, { useNewUrlParser: true });
+		const db = await client.db('VictoriaDB');
+		let collection = await db.collection('EmployeeUser');
+		let result = await collection.find({}).toArray();
+		return result;
+	}
+	catch(err){
+		console.log("error retrieving All Employees");
+		return err;
+	}
+}
+
+/* crud methods */
+function validateEmployee(firstName, lastName, email, password){
+	let status = true;
+	status = status && validator.isValidEmail(email)
+				&& validator.isValidName(firstName)
+				&& validator.isValidName(lastName)
+				&& validator.isValidPassword(password);
+	return status;
+};
 
 function updateEmployee(email, values){
 	let status = 1;
@@ -93,4 +118,5 @@ module.exports = {
 	deleteEmployee : deleteEmployee,
 	test: test,
 	test2: test2,
+	test3: test3,
 }

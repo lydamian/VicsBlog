@@ -47,9 +47,13 @@ router.get("/test2", async (req, res) => {
     }
 });
 
-router.get("/getAllEmployees", (req, res) => {
+router.get("/test3", async (req, res) => {
+	console.log(employeeModel.test3());
+});
+
+router.get("/getAllEmployees", async (req, res) => {
     try{
-		let all_employees = employeeModel.retrieveAllmployees();
+		let all_employees = await employeeModel.retrieveAllmployees();
 
 		res.status(200).json({
 			all_employees : all_employees,
