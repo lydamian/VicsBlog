@@ -66,7 +66,7 @@ router.get("/getAllEmployees", async (req, res) => {
     }
 });
 
-router.post("/createEmployee", (req, res) => {
+router.post("/createEmployee", async (req, res) => {
 	let status = 0;
     try{
 		console.log(req.body);
@@ -75,10 +75,10 @@ router.post("/createEmployee", (req, res) => {
 		let email = req.body.email;
 		let password = req.body.password; // TODO: Damian, this needs to be secure/encrypted in the future
 
-		status = employeeModel.createEmployee(firstName, lastName, email, password);
+		status = await employeeModel.createEmployee(firstName, lastName, email, password);
 	
 		res.status(200).json({
-			status,
+			status : status,
 		});
     }catch(err){
 		res.status(400).json({
@@ -92,11 +92,10 @@ router.post("/createEmployee", (req, res) => {
 router.post("/deleteEmployee", (req, res) => {
 	let status = 0;
     try{
-		console.log(req.body);
 		let { email } = req.body;
 		status = employeeModel.deleteEmployee(email);
 		res.status(200).json({
-			status
+			status, status
 		});
     }catch(err){
 		res.status(400).json({
@@ -106,6 +105,7 @@ router.post("/deleteEmployee", (req, res) => {
 		});
     }
 });
+
 
 router.post("/updateEmployee", (req, res) => {	
 	let status = 0;

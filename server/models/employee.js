@@ -55,7 +55,7 @@ async function test2(){
 
 function test3(){
 	let email = 'lydamian@gmail.com';
-	return validateEmployee(email, '', '', '', '');
+	return validator.isValidEmail(email) && true;
 }
 
 async function retrieveAllEmployees(){
@@ -76,11 +76,14 @@ async function retrieveAllEmployees(){
 async function createEmployee(firstName, lastName, email, password){
 	let url = CONNECTION_URL;
 	try{
+		if(!validateEmployee(firstName, lastName, email, password)){throw "invalid employee"};
+		let newEmployee = {firstName: firstName, lastName: lastName,email: email, password: password};
+		
 		const client = await MongoClient.connect(url, { useNewUrlParser: true });
 		const db = await client.db('VictoriaDB');
 		let collection = await db.collection('EmployeeUser');
-		let result = await collection.find({}).toArray();
-		return result;
+		let result = await collection.insertOne(newEmployee);
+		return result['result']['n']; // returns the number of documents inserted
 	}
 	catch(err){
 		console.log("error retrieving All Employees");
@@ -95,6 +98,7 @@ function validateEmployee(firstName, lastName, email, password){
 				&& validator.isValidName(firstName)
 				&& validator.isValidName(lastName)
 				&& validator.isValidPassword(password);
+	console.log("the status is: " + status);
 	return status;
 };
 
@@ -105,8 +109,21 @@ function updateEmployee(email, values){
 	return status;
 }
 
-function deleteEmployee(email){
+async function deleteEmployee(email){
 	let status = 1;
+	let url = CONNECTION_URL;
+	try{
+		let query = {email: email};
+		const client = await MongoClient.connect(url, { useNewUrlParser: true });
+		const db = await client.db('VictoriaDB');
+		let collection = await db.collection('EmployeeUser');
+		let result = await collection.deleteMany(query);
+		return result['result']['n']; // returns the number of documents inserted
+	}
+	catch(err){
+		console.log("error retrieving All Employees");
+		return err;
+	}
 	console.log("deleting employee " + email);
 	return status;
 }

@@ -19,7 +19,7 @@ function isValidEmail(email){
 	  }
 	};
 
-	return validate({from: email}, constraints) ? true  : false;
+	return validate({from: email}, constraints) ? false  : true;
 	// => undefined
 }
 
