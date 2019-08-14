@@ -7,4 +7,7 @@ Directories and their functions
  - routes all api endpoints shall be defined in this file
  - controller - processes HTTP requests and defines available endopints
  - model - manages database layer (request and response)
+
+ Adding datefields in node.js to a mongodb field
+ {date: new Date(Date.now()).toISOString()}
  

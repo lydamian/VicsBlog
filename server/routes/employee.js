@@ -89,11 +89,11 @@ router.post("/createEmployee", async (req, res) => {
     }
 });
 
-router.post("/deleteEmployee", (req, res) => {
+router.post("/deleteEmployee", async (req, res) => {
 	let status = 0;
     try{
 		let { email } = req.body;
-		status = employeeModel.deleteEmployee(email);
+		status = await employeeModel.deleteEmployee(email);
 		res.status(200).json({
 			status, status
 		});
