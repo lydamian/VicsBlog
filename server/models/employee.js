@@ -102,10 +102,10 @@ function validateEmployee(firstName, lastName, email, password){
 	return status;
 };
 
-function updateEmployee(email, values){
+async function updateEmployee(email, values){
 	let status = 1;
 	console.log("updating employee "  + email + 
-		" with values: " + values);
+		" with values: " + JSON.stringify(values));
 	return status;
 }
 
