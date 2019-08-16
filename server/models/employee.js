@@ -103,10 +103,24 @@ function validateEmployee(firstName, lastName, email, password){
 };
 
 async function updateEmployee(email, values){
+	let url = CONNECTION_URL;
 	let status = 1;
-	console.log("updating employee "  + email + 
-		" with values: " + JSON.stringify(values));
-	return status;
+	try{
+		console.log(values);
+		let objvalues = JSON.parse(values);
+		console.log(typeof objvalues);
+		let query = { email : email };
+	    let newValues = { $set: objvalues };
+		const client = await MongoClient.connect(CONNECTION_URL, { useNewUrlParser: true });
+		const db = await client.db('VictoriaDB');
+		let collection = await db.collection('EmployeeUser');
+		let result = await collection.updateOne(query, newValues);
+		return result['result']['n']; // returns the number of documents inserte
+	}
+	catch(err){
+		console.log("error updating employee " + email);
+		return -1;
+	}
 }
 
 async function deleteEmployee(email){

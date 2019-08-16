@@ -110,9 +110,8 @@ router.post("/deleteEmployee", async (req, res) => {
 router.post("/updateEmployee", async (req, res) => {	
 	let status = 0;
     try{
-    	let { values } = req.body;
-    	console.log(values);
-		let status = await employeeModel.updateEmployee(email, {firstName, lastName, password});
+    	let { email, values } = req.body;
+		let status = await employeeModel.updateEmployee(email, values);
 		res.status(200).json({
 			status
 		});
