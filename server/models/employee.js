@@ -106,9 +106,7 @@ async function updateEmployee(email, values){
 	let url = CONNECTION_URL;
 	let status = 1;
 	try{
-		console.log(values);
 		let objvalues = JSON.parse(values);
-		console.log(typeof objvalues);
 		let query = { email : email };
 	    let newValues = { $set: objvalues };
 		const client = await MongoClient.connect(CONNECTION_URL, { useNewUrlParser: true });

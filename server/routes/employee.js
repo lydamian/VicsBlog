@@ -111,6 +111,8 @@ router.post("/updateEmployee", async (req, res) => {
 	let status = 0;
     try{
     	let { email, values } = req.body;
+    	console.log(values);
+    	console.log(typeof values);
 		let status = await employeeModel.updateEmployee(email, values);
 		res.status(200).json({
 			status

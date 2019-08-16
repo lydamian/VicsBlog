@@ -14,6 +14,7 @@ const testRouter = require('./routes/test');
 const playersRouter = require("./routes/players");
 const employeeRouter = require("./routes/employee");
 const defaultRouter = require("./routes/default");
+const blogRouter = require("./routes/blog");
 
 /* ======= IMPORTED RESOURCES =========== */
 const PORTS = require('./config/serverPort.js');
@@ -44,6 +45,9 @@ app.use(myLogger)
 // listening on some port
 app.listen(PORT, function(){
     console.log("Running on PORT: " + PORT);
+    require('dns').lookup(require('os').hostname(), function (err, add, fam) {
+ 	 console.log('addr: '+add);
+	});
 });
 
 //routes
@@ -53,6 +57,7 @@ app.get('/', function(req, res){ // default homepage route
 app.use("/players", playersRouter);
 app.use("/test", testRouter);
 app.use("/employee", employeeRouter);
+app.use("/blog", blogRouter);
 
 //default route
 app.use('*', defaultRouter);
