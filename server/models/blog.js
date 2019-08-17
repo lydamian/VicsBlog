@@ -21,9 +21,9 @@
 
 /* need to create another table to store the meta data about mongodb blogs 
 	- can use this information to do research on what people are intersted in and why, create machine learning models
-	- 
-
-
+	- view hit,
+	- thumbs up
+	- thumbs down
 */
 
 
