@@ -19,14 +19,6 @@
 }
 */
 
-/* need to create another table to store the meta data about mongodb blogs 
-	- can use this information to do research on what people are intersted in and why, create machine learning models
-	- view hit,
-	- thumbs up
-	- thumbs down
-*/
-
-
 async function getAllBlogs(){
 
 }
@@ -67,12 +59,15 @@ async function updateBlog(blogId, values){
 
 }
 
-
-
-
-
 module.exports = {
 	getAllBlogs : getAllBlogs, 
 	getOneBlogById : getOneBlogById,
-	getBlogsAfterDate,
+	getBlogsAfterDate : getBlogsAfterDate,
+	getBlogsBeforeDate : getBlogsBeforeDate,
+	getMostPopularBlog : getMostPopularBlog,
+	getMostRecentBlog : getMostRecentBlog,
+	getBlogsBetweenDate : getBlogsBetweenDates,
+	createBlog : createBlog, 
+	deleteBlog : deleteblog,
+	updateBlog : updateBlog,
 };
