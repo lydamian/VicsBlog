@@ -46,6 +46,11 @@ const sampleData = {
 	"dateModified":{"$date":{"$numberLong":"1565938800000"}}
 };
 
+function test(data, callback){
+	let newValue = data+1;
+	callback(newValue);
+}
+
 async function getAllBlogs(){
 	try{
 		const client = await MongoClient.connect(CONNECTION_URL, { useNewUrlParser: true });
@@ -108,6 +113,7 @@ async function updateBlog(blogId, values){
 }
 
 module.exports = {
+	test : test,
 	getAllBlogs : getAllBlogs, 
 	getOneBlogById : getOneBlogById,
 	getBlogsAfterDate : getBlogsAfterDate,

@@ -32,9 +32,11 @@ router.get("/", (req, res) => {
     }
 });
 
+/*
 router.get("/test", (req, res) => {
 		return "hi";
 });
+*/
 
 router.get("/getAllBlogs", async (req, res) => {
     try{
@@ -63,6 +65,33 @@ router.get("/getOneBlogById", async (req, res) => {
 	    err
 	});
     }
+});
+
+router.get("/test", async (req, res) => {
+	console.log("test function just got hit");
+	let value = 1;
+	//res.status(200).send("wtf");
+
+	 // blogModel.test(value, (newValue) => {
+	 // 	res.status(200).json({
+	 // 		newValue
+	 // 	}
+	 // 	);
+	 // });
+	 try{
+			let someValue = await blogModel.test(value);
+			console.log(someValue);
+				 res.status(200).json(
+				 	{
+				 		someValue
+				 	});
+				 }
+	 catch(err){
+	 	res.status(400).send(
+	 		"some error occured");
+	 }
+	 
+	
 });
 
 module.exports = router;
