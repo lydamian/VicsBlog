@@ -36,5 +36,33 @@ router.get("/test", (req, res) => {
 		return "hi";
 });
 
+router.get("/getAllBlogs", async (req, res) => {
+    try{
+    	let allBlogs = await blogModel.getAllBlogs();
+		res.status(200).json({
+			result : allBlogs,
+		});
+    }catch(err){
+	res.status(400).json({
+	    message: "Some error occured",
+	    err
+	});
+    }
+});
+
+router.get("/getOneBlogById", async (req, res) => {
+    try{
+    	let {blogId} = req.query;
+    	let blog = await blogModel.getOneBlogById(blogId);
+		res.status(200).json({
+			result : blog,
+		});
+    }catch(err){
+	res.status(400).json({
+	    message: "Some error occured",
+	    err
+	});
+    }
+});
 
 module.exports = router;
