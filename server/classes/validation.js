@@ -27,7 +27,7 @@ function isValidHeader(header){
 	let status = true;
 	status = status 
 		&& (typeof header == "string")
-		&& (name != "");
+		&& (header != "");
 	return status;
 }
 

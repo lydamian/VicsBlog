@@ -52,6 +52,27 @@ router.get("/getAllBlogs", async (req, res) => {
     }
 });
 
+router.post("/createBlog", async (req, res) => {
+	try{
+		// get params
+		let {title, content, author, email} =  req.body;
+    	let dateCreated =  new Date().toISOString();
+    	let dateModified = new Date().toISOString();
+    	let status = await blogModel.createBlog(title, content, dateCreated, dateModified, author, email);
+	    res.status(200).json({
+	    	status
+	    });
+
+	}
+	catch(err){
+    	res.status(400).json({
+    		err,
+    		msg : "error creating blog",
+    	});
+
+	}
+});
+
 router.get("/getOneBlogById", async (req, res) => {
     try{
     	let {blogId} = req.query;

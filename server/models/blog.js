@@ -102,26 +102,27 @@ async function getBlogsBetweenDates(startDate, endDate){
 }
 
 async function createBlog(title, content, dateCreated, dateModified, author, email, 
-		rating = 0, popularityScore = 0, categories = [], viewHit = 0, thumbsUpount = 0, thumbsDownCount = 0, comments = []){
+		rating = 0, popularityScore = 0, categories = [], viewHit = 0, thumbsUpCount = 0, thumbsDownCount = 0, comments = []){
 	let url = CONNECTION_URL;
 	try{
 		// validate the content;
 		if(!validateBlog(title, content, dateCreated, dateModified, author, email, 
 			rating, popularityScore, categories, thumbsUpCount, thumbsDownCount, comments)){throw "invalid blog format"};
+		
 		let newBlog = {
 			title : title,
 			content: content, 
-			dateCreated : dateCreated,
-			dateModified : dateModified,
 			author : author,
 			email : email,
 			rating : rating, 
 			popularityScore : popularityScore,
-			categories : categories,
 			viewHit :  viewHit,
 			thumbsUpCount : thumbsUpCount,
 			thumbsDownCount : thumbsDownCount,
-			comments : comments
+			comments : comments,
+			categories : categories,
+			dateCreated : dateCreated,
+			dateModified : dateModified,
 		};
 		
 		const client = await MongoClient.connect(url, { useNewUrlParser: true });
@@ -132,6 +133,7 @@ async function createBlog(title, content, dateCreated, dateModified, author, ema
 	}
 	catch(err){
 		console.log("error creating blog");
+		console.log(err);
 		throw err;
 	}
 }
@@ -182,17 +184,17 @@ function validateBlog(title, content, date_created, date_modified, author, email
 	let status = true;
 	status = status && validator.isValidEmail(email)
 				&& validator.isValidName(author)
-				&& validator.isValidHeader(title)
-				&& validator.isValidHeader(content)
-				&& validator.isValidDate(date_created)
-				&& validator.isValidDate(date_modified)
+				//&& validator.isValidHeader(title)
+				//&& validator.isValidHeader(content)
+				//&& validator.isValidDate(date_created)
+				//&& validator.isValidDate(date_modified)
 				&& Number.isInteger(rating)
 				&& Number.isInteger(popularityScore)
 				&& Number.isInteger(viewHit)
 				&& Number.isInteger(thumbsUpCount)
-				&& Number.isInteger(thumbsDownCount)
-				&& Array.isArray(categories)
-				&& Array.isArray(comments)
+				&& Number.isInteger(thumbsDownCount);
+				//&& Array.isArray(categories)
+				//&& Array.isArray(comments);
 	console.log("the status is: " + status);
 	return status;
 };
