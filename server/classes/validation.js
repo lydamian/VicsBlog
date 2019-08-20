@@ -23,8 +23,20 @@ function isValidEmail(email){
 	// => undefined
 }
 
+function isValidHeader(header){
+	let status = true;
+	status = status 
+		&& (typeof header == "string")
+		&& (name != "");
+	return status;
+}
+
 function isValidName(name){
-	return true;
+	let status = true;
+	status = status
+		&& (typeof name == "string")
+		&& (name != "");
+	return status;
 }
 
 function isValidDate(date){

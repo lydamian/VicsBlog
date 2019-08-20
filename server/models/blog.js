@@ -82,35 +82,120 @@ async function getOneBlogById(blogId){
 }
 
 async function getBlogsAfterDate(someDate){
+	return "getting all blogs after date: " + someDate;
 }
 
 async function getBlogsBeforeDate(someDate){
-
+	return "getting all blogs before date: " + someDate;
 }
 
 async function getMostPopularBlog(){ // this should be interseting how to do this?
-
+	return "getting most popular blog";
 }
 
 async function getMostRecentBlog(){
-
+	return "getting most recent blog";
 }
 
 async function getBlogsBetweenDates(startDate, endDate){
-
+	return "getting blogs between dates: " + startDate + " , " + endDate;
 }
 
-async function createBlog(title, content, date_created, date_modified, author){
-
+async function createBlog(title, content, dateCreated, dateModified, author, email, 
+		rating = 0, popularityScore = 0, categories = [], viewHit = 0, thumbsUpount = 0, thumbsDownCount = 0, comments = []){
+	let url = CONNECTION_URL;
+	try{
+		// validate the content;
+		if(!validateBlog(title, content, dateCreated, dateModified, author, email, 
+			rating, popularityScore, categories, thumbsUpCount, thumbsDownCount, comments)){throw "invalid blog format"};
+		let newBlog = {
+			title : title,
+			content: content, 
+			dateCreated : dateCreated,
+			dateModified : dateModified,
+			author : author,
+			email : email,
+			rating : rating, 
+			popularityScore : popularityScore,
+			categories : categories,
+			viewHit :  viewHit,
+			thumbsUpCount : thumbsUpCount,
+			thumbsDownCount : thumbsDownCount,
+			comments : comments
+		};
+		
+		const client = await MongoClient.connect(url, { useNewUrlParser: true });
+		const db = await client.db('VictoriaDB');
+		let collection = await db.collection('Blog');
+		let result = await collection.insertOne(newBlog);
+		return result['result']['n']; // returns the number of documents inserted
+	}
+	catch(err){
+		console.log("error creating blog");
+		throw err;
+	}
 }
 
 async function deleteBlog(blogId){
-
+	let status = 1;
+	let url = CONNECTION_URL;
+	try{
+		let blogIdObj = await new ObjectId(blogId);
+		let query = {_id : blogIdObj};
+		const client = await MongoClient.connect(url, { useNewUrlParser: true });
+		const db = await client.db('VictoriaDB');
+		let collection = await db.collection('Blog');
+		let result = await collection.deleteMany(query);
+		return result['result']['n']; // returns the number of documents inserted
+	}
+	catch(err){
+		console.log("error retrieving All Employees");
+		return err;
+	}
+	console.log("deleting employee " + email);
+	return status;
 }
 
 async function updateBlog(blogId, values){
-
+	return "update Blog called...";
+	let url = CONNECTION_URL;
+	let status = 1;
+	try{
+		let objvalues = JSON.parse(values);
+		let query = { email : email };
+	    let newValues = { $set: objvalues };
+		const client = await MongoClient.connect(CONNECTION_URL, { useNewUrlParser: true });
+		const db = await client.db('VictoriaDB');
+		let collection = await db.collection('EmployeeUser');
+		let result = await collection.updateOne(query, newValues);
+		return result['result']['n']; // returns the number of documents inserte
+	}
+	catch(err){
+		console.log("error updating employee " + email);
+		return -1;
+	}
 }
+
+/* crud methods */
+function validateBlog(title, content, date_created, date_modified, author, email, 
+		rating = 0, popularityScore = 0, categories = [], viewHit = 0, thumbsUpCount = 0, thumbsDownCount = 0, comments = []){
+	let status = true;
+	status = status && validator.isValidEmail(email)
+				&& validator.isValidName(author)
+				&& validator.isValidHeader(title)
+				&& validator.isValidHeader(content)
+				&& validator.isValidDate(date_created)
+				&& validator.isValidDate(date_modified)
+				&& Number.isInteger(rating)
+				&& Number.isInteger(popularityScore)
+				&& Number.isInteger(viewHit)
+				&& Number.isInteger(thumbsUpCount)
+				&& Number.isInteger(thumbsDownCount)
+				&& Array.isArray(categories)
+				&& Array.isArray(comments)
+	console.log("the status is: " + status);
+	return status;
+};
 
 module.exports = {
 	test : test,
