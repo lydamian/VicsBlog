@@ -107,7 +107,7 @@ async function createBlog(title, content, dateCreated, dateModified, author, ema
 	try{
 		// validate the content;
 		if(!validateBlog(title, content, dateCreated, dateModified, author, email, 
-			rating, popularityScore, categories, thumbsUpCount, thumbsDownCount, comments)){throw "invalid blog format"};
+			rating, popularityScore, categories, viewHit, thumbsUpCount, thumbsDownCount, comments)){throw "invalid blog format"};
 		
 		let newBlog = {
 			title : title,
@@ -184,18 +184,17 @@ function validateBlog(title, content, date_created, date_modified, author, email
 	let status = true;
 	status = status && validator.isValidEmail(email)
 				&& validator.isValidName(author)
-				//&& validator.isValidHeader(title)
-				//&& validator.isValidHeader(content)
-				//&& validator.isValidDate(date_created)
-				//&& validator.isValidDate(date_modified)
+				&& validator.isValidHeader(title)
+				&& validator.isValidHeader(content)
+				&& validator.isValidDate(date_created)
+				&& validator.isValidDate(date_modified)
 				&& Number.isInteger(rating)
 				&& Number.isInteger(popularityScore)
 				&& Number.isInteger(viewHit)
 				&& Number.isInteger(thumbsUpCount)
-				&& Number.isInteger(thumbsDownCount);
-				//&& Array.isArray(categories)
-				//&& Array.isArray(comments);
-	console.log("the status is: " + status);
+				&& Number.isInteger(thumbsDownCount)
+				&& Array.isArray(categories)
+				&& Array.isArray(comments);
 	return status;
 };
 
@@ -211,4 +210,5 @@ module.exports = {
 	createBlog : createBlog, 
 	deleteBlog : deleteBlog,
 	updateBlog : updateBlog,
+	validateBlog : validateBlog,
 };

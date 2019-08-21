@@ -38,10 +38,13 @@ router.get('/testAsyncFunction', function(req, res) {
 });
 
 
-router.get('/testValidation', async (req, res) => {	
+router.get('/testValidation', (req, res) => {	
+	console.log("testValidation method called");
 	try{
-		input = req.query.input;
-		let status = await validation.isValidEmail(input);
+		let input = req.query.input;
+		console.log(input);
+		let status = validation.isValidHeader(input);
+		console.log(status);
 		res.status(200).json({
 			input,
 			status

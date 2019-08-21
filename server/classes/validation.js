@@ -26,8 +26,9 @@ function isValidEmail(email){
 function isValidHeader(header){
 	let status = true;
 	status = status 
-		&& (typeof header == "string")
-		&& (header != "");
+	&& (typeof header == "string")
+	&& (header != "") 
+	&& header != null;
 	return status;
 }
 
@@ -57,4 +58,5 @@ module.exports = {
 	isValidName : isValidName, 
 	isValidDate : isValidDate,
 	isValidPassword: isValidPassword,
+	isValidHeader : isValidHeader,
 }
